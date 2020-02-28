@@ -1,6 +1,8 @@
-## Spread sheet
+## Spreadsheet
 
 Simple spread sheet using react
+
+![screenshot](./screenshot.png)
 
 ### Why ?
 
