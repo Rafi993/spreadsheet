@@ -7,7 +7,7 @@ const App = () => {
   return (
     <>
       <Reset />
-      <Sheet />
+      <Sheet numberOfRows={10} numberOfColumns={10} />
     </>
   );
 };

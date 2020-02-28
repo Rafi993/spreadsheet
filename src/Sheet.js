@@ -3,13 +3,10 @@ import React, { useState, useCallback, Fragment } from "react";
 import Cell from "./Cell";
 import { Sheet as StyledSheet } from "./styles";
 
-const NUMBER_OF_ROWS = 10;
-const NUMBER_OF_COLUMNS = 10;
-
 const getColumnName = index =>
   String.fromCharCode("A".charCodeAt(0) + index - 1);
 
-const Sheet = () => {
+const Sheet = ({ numberOfRows, numberOfColumns }) => {
   const [data, setData] = useState({});
 
   const setCellValue = useCallback(
@@ -56,13 +53,13 @@ const Sheet = () => {
   );
 
   return (
-    <StyledSheet>
-      {Array(NUMBER_OF_ROWS)
+    <StyledSheet numberOfColumns={numberOfColumns}>
+      {Array(numberOfRows)
         .fill()
         .map((m, i) => {
           return (
             <Fragment key={i}>
-              {Array(NUMBER_OF_COLUMNS)
+              {Array(numberOfColumns)
                 .fill()
                 .map((n, j) => {
                   const columnName = getColumnName(j);

@@ -2,7 +2,10 @@ import styled from "styled-components";
 
 export const Sheet = styled.div`
   display: grid;
-  grid-template-columns: 32px repeat(9, 90px);
+  grid-template-columns: 32px repeat(
+      ${props => props.numberOfColumns - 1},
+      90px
+    );
 `;
 
 export const Header = styled.div`
