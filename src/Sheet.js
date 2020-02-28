@@ -16,11 +16,7 @@ const Sheet = () => {
     ({ row, column, value }) => {
       const newData = { ...data };
 
-      if (!newData[column]) {
-        newData[column] = {};
-      }
-
-      newData[column][row] = value;
+      newData[`${column}${row}`] = value;
       setData(newData);
     },
     [data, setData]
@@ -28,10 +24,29 @@ const Sheet = () => {
 
   const computeCell = useCallback(
     ({ row, column }) => {
-      const cellContent = data?.[column]?.[row];
+      const cellContent = data[`${column}${row}`];
       if (cellContent) {
         if (cellContent.charAt(0) === "=") {
-          return "";
+          // This regex converts = "A1+A2" to ["A1","+","A2"]
+          const expression = cellContent.substr(1).split(/([+*-])/g);
+
+          let subStitutedExpression = "";
+
+          expression.forEach(item => {
+            // Regex to test if it is of form alphabet followed by number ex: A1
+            if (/^[A-z][0-9]$/g.test(item || "")) {
+              subStitutedExpression += data[(item || "").toUpperCase()] || 0;
+            } else {
+              subStitutedExpression += item;
+            }
+          });
+
+          // @shame: Need to comeup with parser to replace eval and to support more expressions
+          try {
+            return eval(subStitutedExpression);
+          } catch (error) {
+            return "ERROR!";
+          }
         }
         return cellContent;
       }
@@ -57,7 +72,7 @@ const Sheet = () => {
                       columnIndex={j}
                       columnName={columnName}
                       setCellValue={setCellValue}
-                      currentValue={data?.[columnName]?.[i]}
+                      currentValue={data[`${columnName}${i}`]}
                       computeCell={computeCell}
                       key={`${columnName}${i}`}
                     />
