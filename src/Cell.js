@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useMemo } from "react";
+import React, { useCallback, useState, memo, useMemo } from "react";
 
 import { Input, Header } from "./styles";
 
@@ -53,4 +53,4 @@ const Cell = ({
   );
 };
 
-export default Cell;
+export default memo(Cell);
